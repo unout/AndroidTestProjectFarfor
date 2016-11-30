@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">Farfor Food</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Настройки</string>
+
+    <string name="additives">Добавки</string>
+    <string name="desserts">Десерты</string>
+    <string name="drinks">Напитки</string>
+    <string name="partymaker">Патимейкер</string>
+    <string name="noodles">Лапша</string>
+    <string name="sets">Сеты</string>
+    <string name="rolls">Роллы</string>
+    <string name="sushi">Суши</string>
+    <string name="soups">Супы</string>
+    <string name="warm">Тёплое</string>
+    <string name="snacks">Закуски</string>
+    <string name="pizza">Пицца</string>
+    <string name="salad">Салаты</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="category">Категории:</string>
+
+    <string name="conn_or_load">Нет подключения к интернету или данные ещё не загрузились</string>
+    <string name="conn_err">Нет подключения к интернету</string>
+    <string name="still_load">Данные загружаются</string>
+    <string name="title_activity_maps">Карта</string>
+    <string name="success_load">Загрузка данных завершена, приятного аппетита</string>
+
+    <string name="phone">телефон: 1234567890</string>
+    <string name="address">адресс: Подсолнечная система, планета Зефир.</string>
+    <string name="already">Еда уже загружена</string>
+
+    <string name="yet">Еда загружается…</string>
+    <string name="communicate">Связь</string>
+    <string name="map">Карта</string>
+    <string name="contacts">Контакты</string>
+</resources>

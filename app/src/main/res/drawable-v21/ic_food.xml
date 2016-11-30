@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--<a android:href="https://icons8.com/web-app/12867/Pizza">Pizza icon credits</a>-->
+    <!--<a android:href="https://icons8.com/web-app/13290/Wrap">Wrap icon credits</a>-->
+    <!--<a android:href="https://icons8.com/web-app/13331/Spaghetti">Spaghetti icon credits</a>-->
+    <!--<a android:href="https://icons8.com/web-app/13314/Noodles">Noodles icon credits</a>-->
+    <!--<a android:href="https://icons8.com/web-app/12897/Cupcake">Cupcake icon credits</a>-->
+    <!--<a android:href="https://icons8.com/web-app/3612/Sushi">Sushi icon credits</a>-->
+    <!--<a android:href="https://icons8.com/web-app/8379/Noodles-Filled">Noodles filled icon credits</a>-->
+    <!--<a android:href="https://icons8.com/web-app/34987/Milkshake-Filled">Milkshake filled icon credits</a>-->
+    <!--<a android:href="https://icons8.com/web-app/37456/Ketchup-Filled">Ketchup filled icon credits</a>-->
+    <!--<a android:href="https://icons8.com/web-app/36880/Pastel-De-Nata">Pastel de nata icon credits</a>-->
+    <!--<a android:href="https://icons8.com/web-app/12876/Banana-Split">Banana split icon credits</a>-->
+</selector>

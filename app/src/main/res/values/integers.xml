@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="additives">23</integer>
+    <integer name="desserts">10</integer>
+    <integer name="drinks">9</integer>
+    <integer name="partymaker">25</integer>
+    <integer name="noodles">3</integer>
+    <integer name="sets">2</integer>
+    <integer name="rolls">18</integer>
+    <integer name="sushi">5</integer>
+    <integer name="soups">6</integer>
+    <integer name="warm">8</integer>
+    <integer name="snacks">20</integer>
+    <integer name="pizza">1</integer>
+    <integer name="salad">7</integer>
+</resources>
