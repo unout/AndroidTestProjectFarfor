@@ -11,7 +11,6 @@ import com.example.user.testproject11.model.Category;
 import com.example.user.testproject11.model.Offer;
 import com.example.user.testproject11.support.Constants;
 import com.example.user.testproject11.support.NetworkUtils;
-import com.example.user.testproject11.tasks.LoadTask;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -24,10 +23,10 @@ import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 public class Manager {
 
     private static volatile Manager instance;
-    private LoadTask.OnUpdateListener mListener = null;
+    private OnUpdateListener mListener = null;
     private RealmResults<Offer> mOffers;
-    private int mCat;
-    private RealmResults<Category> mCategories;
+//    private int mCat;
+//    private RealmResults<Category> mCategories;
 
     private Manager() {
     }
@@ -48,7 +47,9 @@ public class Manager {
     public interface OnUpdateListener {
         void onUpdateFinished(int resultCode);
     }
-
+    public void setListener(OnUpdateListener mListener) {
+        this.mListener = mListener;
+    }
     public void calling(final Context context) {
 
         if (context != null && !NetworkUtils.isOnline(context)){
@@ -72,7 +73,6 @@ public class Manager {
                     Toast.makeText(context, "call.enqueue...onResponse. context = " + context,
                             Toast.LENGTH_LONG).show();
                     Log.d(Constants.myLogs, "call.enqueue...onResponse. context = " + context);
-                    setInitFinished(Constants.CODE_SUCCESS);
                 }
 
                 @Override
@@ -96,14 +96,10 @@ public class Manager {
                 .findAll();
     }
     public RealmResults<Category> getCategories() {
-        return mCategories;
+        return Realm.getDefaultInstance().where(Category.class).findAll();
     }
 
-    public void setCategories() {
-        mCategories = Realm.getDefaultInstance().where(Category.class).findAll();
-    }
-
-    public void initDb(Response<Catalog> catalogResponse, Realm realm) {
+    private void initDb(Response<Catalog> catalogResponse, Realm realm) {
         try {
 
             realm.beginTransaction();

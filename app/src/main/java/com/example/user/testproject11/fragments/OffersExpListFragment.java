@@ -15,23 +15,23 @@ import android.widget.Toast;
 
 import com.example.user.testproject11.Manager;
 import com.example.user.testproject11.R;
-import com.example.user.testproject11.adapters.BoxAdapter;
+import com.example.user.testproject11.adapters.OffersExpListAdapter;
 import com.example.user.testproject11.model.Offer;
 
 import io.realm.RealmResults;
 
 
-public class OfferExpListFragment extends Fragment {
+public class OffersExpListFragment extends Fragment {
 
     private static final String OFFER_POSITION = "position";
     private AppCompatActivity mAppCompatActivity;
 //    private Offer mOffer;
 
-    public OfferExpListFragment() {
+    public OffersExpListFragment() {
     }
 
-    public static OfferExpListFragment newInstance(int position) {
-        OfferExpListFragment fragment = new OfferExpListFragment();
+    public static OffersExpListFragment newInstance(int position) {
+        OffersExpListFragment fragment = new OffersExpListFragment();
         Bundle args = new Bundle();
         args.putInt(OFFER_POSITION, position);
         fragment.setArguments(args);
@@ -71,8 +71,6 @@ public class OfferExpListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
         int position = 0;
         if (getArguments() != null) {
             position = getArguments().getInt(OFFER_POSITION);
@@ -93,7 +91,7 @@ public class OfferExpListFragment extends Fragment {
         if (offers.size() != 0) {
             expLV.setVisibility(View.VISIBLE);
             expLV.removeAllViewsInLayout();
-            BoxAdapter ba = new BoxAdapter(mAppCompatActivity, offers);
+            OffersExpListAdapter ba = new OffersExpListAdapter(mAppCompatActivity, offers);
             expLV.setAdapter(ba);
         } else {
             Toast.makeText(mAppCompatActivity, R.string.conn_or_load, Toast.LENGTH_SHORT).show();

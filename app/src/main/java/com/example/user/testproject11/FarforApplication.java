@@ -12,7 +12,7 @@ public class FarforApplication extends Application {
         super.onCreate();
         Realm.init(this);
         Realm.setDefaultConfiguration(new RealmConfiguration.Builder().build());
-        Manager.getInstance().calling(this);
+//        Manager.getInstance().calling(this);
     }
 
     @Override

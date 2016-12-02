@@ -1,10 +1,10 @@
 package com.example.user.testproject11.adapters;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,57 +14,74 @@ import com.example.user.testproject11.support.Constants;
 
 import io.realm.RealmResults;
 
-public class CatAdapter extends BaseAdapter {
+public class CatAdapter extends RecyclerView.Adapter<CatAdapter.ViewHolder> {
     private Context ctx;
     private LayoutInflater lInflater;
     private RealmResults<Category> categories;
+    private OnItemClickListener mOnItemClickListener;
 
-    public CatAdapter(Context context, RealmResults<Category> cats) {
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
+    public CatAdapter(Context context, RealmResults<Category> cats, OnItemClickListener onItemClickListener) {
         ctx = context;
         categories = cats;
         lInflater = (LayoutInflater) ctx
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.mOnItemClickListener = onItemClickListener;
     }
 
     @Override
-    public int getCount() {
-        return categories.size();
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = lInflater.inflate(R.layout.cat_item, parent, false);
+        final ViewHolder viewHolder = new ViewHolder(view);
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOnItemClickListener.onItemClick(v, viewHolder.getAdapterPosition());
+            }
+        });
+        return viewHolder;
     }
 
     @Override
-    public Object getItem(int position) {
-        return categories.get(position);
+    public void onBindViewHolder(ViewHolder holder, int position) {
+
+        int offerPosition = getItemCount() - 1 - position;
+
+        Category c = categories.get(offerPosition);
+        String name = c.getContent();
+        holder.mCatName.setText(name);
+
+        String title = name.toLowerCase();
+        title = Constants.translateTitle(title);
+        if (title != null && !title.equals("")) {
+            holder.mCatIcon
+                    .setImageResource(ctx.getResources()
+                            .getIdentifier(title, "drawable", ctx.getPackageName()));
+        }
     }
 
     @Override
     public long getItemId(int position) {
         return position;
     }
-    
+
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        
-        View view = convertView;
-        if (view == null) {
-            view = lInflater.inflate(R.layout.cat_item, parent, false);
-        }
-
-        Category c = getCategory(position);
-        
-        String name = c.getContent();
-        ((TextView) view.findViewById(R.id.catItemName)).setText(name);
-
-        String title = name.toLowerCase();
-        title = Constants.translateTitle(title);
-        if (title != null && !title.equals("")) {
-            int drawableResourceId = ctx.getResources().getIdentifier(title, "drawable", ctx.getPackageName());
-            ((ImageView) view.findViewById(R.id.ivImage)).setImageResource(drawableResourceId);
-        }
-        return view;
+    public int getItemCount() {
+        return categories.size();
     }
 
-    private Category getCategory(int position) {
-        return ((Category) getItem(position));
-    }
+    class ViewHolder extends RecyclerView.ViewHolder{
+        private ImageView mCatIcon;
+        private TextView mCatName;
 
+        ViewHolder(View itemView) {
+            super(itemView);
+            mCatIcon = (ImageView) itemView.findViewById(R.id.catIcon);
+            mCatName = (TextView) itemView.findViewById(R.id.catItemName);
+        }
+    }
 }

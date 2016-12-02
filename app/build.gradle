@@ -6,7 +6,7 @@ android {
     buildToolsVersion "25.0.1"
     defaultConfig {
         applicationId "com.example.user.testproject11"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
         versionName "4.0"
@@ -42,6 +42,6 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.android.support:recyclerview-v7:25.0.1'
     compile 'com.android.support:support-v4:25.0.1'
-    compile 'com.hannesdorfmann.fragmentargs:annotation:3.0.2'
+    compile 'com.thoughtbot:expandablerecyclerview:1.1'
     testCompile 'junit:junit:4.12'
 }

@@ -15,17 +15,14 @@ import com.example.user.testproject11.support.PicassoBigCache;
 
 import io.realm.RealmResults;
 
-import static com.example.user.testproject11.R.id.tvDescription;
-import static com.example.user.testproject11.R.id.tvPrice;
-
-public class BoxAdapter extends BaseExpandableListAdapter {
+public class OffersExpListAdapter extends BaseExpandableListAdapter {
 
     private RealmResults<Offer> mOffers;
     private Context mContext;
 
-    public BoxAdapter(Context context, RealmResults<Offer> offers) {
-        mContext = context;
-        mOffers = offers;
+    public OffersExpListAdapter(Context context, RealmResults<Offer> offers) {
+        this.mContext = context;
+        this.mOffers = offers;
     }
 
     @Override
@@ -77,7 +74,7 @@ public class BoxAdapter extends BaseExpandableListAdapter {
     private void groupViewInit(Offer o, View v) {
 
         ((TextView) v.findViewById(R.id.tvName)).setText(o.getName());
-        ((TextView) v.findViewById(tvPrice))
+        ((TextView) v.findViewById(R.id.tvPrice))
                 .setText("Цена: ".concat(o.getPrice()));
 
         String weight = "";
@@ -128,7 +125,7 @@ public class BoxAdapter extends BaseExpandableListAdapter {
                     .into(tvPicture);
         }
 
-        ((TextView) v.findViewById(tvDescription))
+        ((TextView) v.findViewById(R.id.tvDescription))
                 .setText(o.getDescription());
 
         return v;
