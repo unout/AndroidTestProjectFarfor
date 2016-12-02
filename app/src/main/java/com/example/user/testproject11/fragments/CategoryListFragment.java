@@ -4,18 +4,14 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -90,24 +86,6 @@ public class CategoryListFragment extends Fragment implements SwipeRefreshLayout
         Manager.getInstance().calling(mContext);
         Toast.makeText(mContext, "onCreate. mContext = " + mContext, Toast.LENGTH_LONG).show();
         Log.d(Constants.myLogs, "onCreate. mContext = " + mContext);
-    }
-
-    private void fillCat(Menu m) {
-        RealmResults<Category> categories = Manager.getInstance().getCategories();
-
-        if (categories != null && categories.size() != 0) {
-            for (int i = 0; i < categories.size(); i++) {
-                m.add(0, i, 0, categories.get(i).getContent());
-                MenuItem item = m.getItem(i);
-                String title = item.getTitle().toString().toLowerCase();
-                title = Constants.translateTitle(title);
-                if (title != null && !title.equals("")) {
-                    int drawableResourceId = getResources().getIdentifier(title, "drawable", mContext.getPackageName());
-                    Drawable drawable = ContextCompat.getDrawable(mContext, drawableResourceId);
-                    item.setIcon(drawable);
-                }
-            }
-        }
     }
 
     @Override
