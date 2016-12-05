@@ -15,9 +15,9 @@ import com.example.user.testproject11.support.Constants;
 import io.realm.RealmResults;
 
 public class CatAdapter extends RecyclerView.Adapter<CatAdapter.ViewHolder> {
-    private Context ctx;
+    private Context mContext;
     private LayoutInflater lInflater;
-    private RealmResults<Category> categories;
+    private RealmResults<Category> mCats;
     private OnItemClickListener mOnItemClickListener;
 
     public interface OnItemClickListener {
@@ -25,9 +25,9 @@ public class CatAdapter extends RecyclerView.Adapter<CatAdapter.ViewHolder> {
     }
 
     public CatAdapter(Context context, RealmResults<Category> cats, OnItemClickListener onItemClickListener) {
-        ctx = context;
-        categories = cats;
-        lInflater = (LayoutInflater) ctx
+        mContext = context;
+        mCats = cats;
+        lInflater = (LayoutInflater) mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.mOnItemClickListener = onItemClickListener;
     }
@@ -48,20 +48,7 @@ public class CatAdapter extends RecyclerView.Adapter<CatAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
-        int offerPosition = getItemCount() - 1 - position;
-
-        Category c = categories.get(offerPosition);
-        String name = c.getContent();
-        holder.mCatName.setText(name);
-
-        String title = name.toLowerCase();
-        title = Constants.translateTitle(title);
-        if (title != null && !title.equals("")) {
-            holder.mCatIcon
-                    .setImageResource(ctx.getResources()
-                            .getIdentifier(title, "drawable", ctx.getPackageName()));
-        }
+        holder.setHolder(mCats.get(position));
     }
 
     @Override
@@ -71,10 +58,10 @@ public class CatAdapter extends RecyclerView.Adapter<CatAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return categories.size();
+        return mCats.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView mCatIcon;
         private TextView mCatName;
 
@@ -82,6 +69,18 @@ public class CatAdapter extends RecyclerView.Adapter<CatAdapter.ViewHolder> {
             super(itemView);
             mCatIcon = (ImageView) itemView.findViewById(R.id.catIcon);
             mCatName = (TextView) itemView.findViewById(R.id.catItemName);
+        }
+
+        private void setHolder(Category c) {
+            String name = c.getContent();
+            mCatName.setText(name);
+
+            String title = name.toLowerCase();
+            title = Constants.translateTitle(title);
+            if (title != null && !title.equals("")) {
+                mCatIcon.setImageResource(mContext.getResources()
+                        .getIdentifier(title, "drawable", mContext.getPackageName()));
+            }
         }
     }
 }
