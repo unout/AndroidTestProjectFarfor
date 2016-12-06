@@ -1,6 +1,5 @@
 package com.example.user.testproject11.fragments;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
@@ -49,7 +48,6 @@ public class OffersListFragment extends Fragment {
         return fragment;
     }
 
-    @TargetApi(23)
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -85,7 +83,6 @@ public class OffersListFragment extends Fragment {
             position = getArguments().getInt(OFFER_POSITION);
         }
         Manager.getInstance().setOffers(Manager.getInstance().getCategories().get(position).getId());
-        int numberOffers = Manager.getInstance().getOffers().size();
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.example.user.testproject11.fragments;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
@@ -10,19 +9,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.user.testproject11.Manager;
 import com.example.user.testproject11.R;
-import com.example.user.testproject11.adapters.OfferAdapter;
 import com.example.user.testproject11.model.Offer;
-
+import com.example.user.testproject11.support.PicassoBigCache;
 
 public class OfferFragment extends Fragment {
 
     private static final String OFFER_POSITION = "position";
     private AppCompatActivity mAppCompatActivity;
-    private Offer mOffer;
-    private Context mContext;
 
     public OfferFragment() {
     }
@@ -35,7 +33,6 @@ public class OfferFragment extends Fragment {
         return fragment;
     }
 
-    @TargetApi(23)
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -67,16 +64,37 @@ public class OfferFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        int position = 0;
-        if (getArguments() != null) {
-            position = getArguments().getInt(OFFER_POSITION);
-        }
-        mOffer = Manager.getInstance().getOffers().get(position);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        OfferAdapter mCatAdapter = new OfferAdapter(mContext, mOffer);
-        return inflater.inflate(R.layout.view_offer, container, false);
+        int position = 0;
+        if (getArguments() != null) {
+            position = getArguments().getInt(OFFER_POSITION);
+        }
+        
+        Offer o = Manager.getInstance().getOffers().get(position);
+        View v = inflater.inflate(R.layout.view_offer, container, false);
+        ((TextView) v.findViewById(R.id.tvName)).setText(o.getName());
+        ((TextView) v.findViewById(R.id.tvPrice)).setText(o.getPrice());
+        if (o.getPicture() != null) {
+            PicassoBigCache.INSTANCE.getPicassoBigCache(mAppCompatActivity)
+                    .load(o.getPicture())
+                    .error(R.drawable.no_image)
+                    .resize(400, 320)
+                    .centerCrop()
+                    .into(((ImageView) v.findViewById(R.id.tvPicture)));
+        }
+        if (o.getDescription() != null) {
+            ((TextView) v.findViewById(R.id.tvDescription)).setText(o.getDescription());
+        }
+        if (o.getParams() != null && o.getParams().size() != 0) {
+            for (int i = 0; i < o.getParams().size(); i++) {
+                if (o.getParams().get(i).getName().equals("Вес")) {
+                    ((TextView) v.findViewById(R.id.tvWeight)).setText(o.getParams().get(i).getContent());
+                }
+            }
+        }
+        return v;
     }
 }
