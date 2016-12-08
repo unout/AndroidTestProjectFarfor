@@ -19,5 +19,6 @@ public class FarforApplication extends Application {
     public void onTerminate() {
         super.onTerminate();
         this.deleteDatabase(this.databaseList()[0]);
+
     }
 }

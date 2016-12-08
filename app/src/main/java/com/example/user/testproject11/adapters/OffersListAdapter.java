@@ -44,10 +44,7 @@ public class OffersListAdapter extends RecyclerView.Adapter<OfferViewHolder> {
                 mOnItemClickListener.onItemClick(v, viewHolder.getAdapterPosition());
             }
         });
-
-        Log.d(Constants.myLogs, "    onCreateViewHolder    ");
         return viewHolder;
-
     }
 
     @Override

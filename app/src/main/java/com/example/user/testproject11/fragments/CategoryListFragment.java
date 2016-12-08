@@ -6,7 +6,6 @@ import android.app.Fragment;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,11 +20,12 @@ import com.example.user.testproject11.Manager;
 import com.example.user.testproject11.R;
 import com.example.user.testproject11.adapters.CatAdapter;
 
-public class CategoryListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, Manager.OnUpdateListener {
+
+public class CategoryListFragment extends Fragment implements Manager.OnUpdateListener {
 
     private Context mContext;
     private RecyclerView mRecyclerView;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private TextView mEmptyView;
     private ProgressBar progressBar;
 
     private final CatAdapter.OnItemClickListener mOnItemClickListener = new CatAdapter.OnItemClickListener() {
@@ -48,9 +48,7 @@ public class CategoryListFragment extends Fragment implements SwipeRefreshLayout
     public void onAttach(Context context) {
         super.onAttach(context);
         onAttachToContext(context);
-        this.mContext = context;
     }
-
     /*
      * Deprecated on API 23
      * Use onAttachToContext instead
@@ -61,40 +59,40 @@ public class CategoryListFragment extends Fragment implements SwipeRefreshLayout
         super.onAttach(activity);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             onAttachToContext(activity);
-            this.mContext = activity.getApplicationContext();
         }
     }
-
     /*
      * Called when the fragment attaches to the context
      */
     protected void onAttachToContext(Context context) {
-        this.mContext = context;
+        mContext = context;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Manager.getInstance().setListener(this);
-        Manager.getInstance().calling(mContext);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_category_list, container, false);
-        progressBar = (ProgressBar) v.findViewById(R.id.progressBarInCatList);
-        progressBar.setVisibility(View.VISIBLE);
 
         mRecyclerView = (RecyclerView) v.findViewById(R.id.mRVCatList);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
 
-        TextView mEmptyView = (TextView) v.findViewById(R.id.mEmptyView);
+        mEmptyView = (TextView) v.findViewById(R.id.mEmptyView);
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.mSwipeRefreshLayout);
-        mSwipeRefreshLayout.setOnRefreshListener(this);
+        if (Manager.getInstance().getCategories().size() > 0) {
 
+            CatAdapter catAdapter = new CatAdapter(mContext,
+                    Manager.getInstance().getCategories(),
+                    mOnItemClickListener);
+            mRecyclerView.setAdapter(catAdapter);
+        }
+        progressBar = (ProgressBar) v.findViewById(R.id.progressBar);
         return v;
     }
 
@@ -104,43 +102,24 @@ public class CategoryListFragment extends Fragment implements SwipeRefreshLayout
     }
 
     @Override
-    public void onPause() {
-        if (mSwipeRefreshLayout != null) {
-            mSwipeRefreshLayout.setRefreshing(false);
-            mSwipeRefreshLayout.destroyDrawingCache();
-            mSwipeRefreshLayout.clearAnimation();
-        }
-        super.onPause();
-    }
-
-    @Override
-    public void onRefresh() {
-        Manager.getInstance().calling(mContext);
-    }
-
-    @Override
     public void onUpdateFinished(int resultCode) {
         switch (resultCode) {
             case 1:
-                if (Manager.getInstance().getCategories().size() != 0 && this.getView() != null) {
-
-                    CatAdapter mCatAdapter = new CatAdapter(mContext,
-                            Manager.getInstance().getCategories(),
-                            mOnItemClickListener);
-                    mRecyclerView.setAdapter(mCatAdapter);
-                    progressBar.setVisibility(View.GONE);
-                }
-                mSwipeRefreshLayout.setRefreshing(false);
+                CatAdapter mCatAdapter = new CatAdapter(mContext,
+                        Manager.getInstance().getCategories(),
+                        mOnItemClickListener);
+                mRecyclerView.setAdapter(mCatAdapter);
                 break;
             case 2:
                 String network_error = getString(R.string.conn_err);
+                mEmptyView.setText(R.string.conn_err);
+                mEmptyView.setVisibility(View.VISIBLE);
                 Toast.makeText(mContext, network_error, Toast.LENGTH_LONG).show();
-                this.mSwipeRefreshLayout.setRefreshing(false);
                 break;
             case 3:
             default:
-                mSwipeRefreshLayout.setRefreshing(false);
                 break;
         }
+        progressBar.setVisibility(View.GONE);
     }
 }

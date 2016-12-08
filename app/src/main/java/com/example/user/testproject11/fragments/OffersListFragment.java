@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import com.example.user.testproject11.Manager;
 import com.example.user.testproject11.R;
@@ -91,7 +90,6 @@ public class OffersListFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_offer_list, container, false);
 
         final RealmResults<Offer> offers = Manager.getInstance().getOffers();
-        ProgressBar progressBar = (ProgressBar) v.findViewById(R.id.progressBarInOfferList);
 
         RecyclerView mRecyclerView = (RecyclerView) v.findViewById(R.id.mRVOfferList);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
@@ -103,7 +101,6 @@ public class OffersListFragment extends Fragment {
                 offers,
                 mOnItemClickListener);
         mRecyclerView.setAdapter(offersListAdapter);
-        progressBar.setVisibility(View.GONE);
 
         return v;
     }

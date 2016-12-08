@@ -3,8 +3,6 @@ package com.example.user.testproject11;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.example.user.testproject11.model.Catalog;
 import com.example.user.testproject11.model.Category;
@@ -25,8 +23,6 @@ public class Manager {
     private static volatile Manager instance;
     private OnUpdateListener mListener = null;
     private RealmResults<Offer> mOffers;
-//    private int mCat;
-//    private RealmResults<Category> mCategories;
 
     private Manager() {
     }
@@ -47,12 +43,14 @@ public class Manager {
     public interface OnUpdateListener {
         void onUpdateFinished(int resultCode);
     }
+
     public void setListener(OnUpdateListener mListener) {
         this.mListener = mListener;
     }
+
     public void calling(final Context context) {
 
-        if (context != null && !NetworkUtils.isOnline(context)){
+        if (context != null && !NetworkUtils.isOnline(context)) {
             setInitFinished(Constants.CODE_NETWORK_ERROR);
         } else {
 
@@ -70,16 +68,10 @@ public class Manager {
                 public void onResponse(Call<Catalog> call, Response<Catalog> response) {
                     Manager.getInstance().initDb(response, realm);
                     setInitFinished(Constants.CODE_SUCCESS);
-                    Toast.makeText(context, "call.enqueue...onResponse. context = " + context,
-                            Toast.LENGTH_LONG).show();
-                    Log.d(Constants.myLogs, "call.enqueue...onResponse. context = " + context);
                 }
 
                 @Override
                 public void onFailure(Call<Catalog> call, Throwable t) {
-                    Toast.makeText(context, "call.enqueue...onFailure. context = " + context,
-                            Toast.LENGTH_LONG).show();
-                    Log.d(Constants.myLogs, "call.enqueue...onFailure. context = " + context);
                     setInitFinished(Constants.CODE_COMMON_ERROR);
                 }
             });
@@ -89,19 +81,20 @@ public class Manager {
     public RealmResults<Offer> getOffers() {
         return mOffers;
     }
+
     public void setOffers(int cat) {
         mOffers = Realm.getDefaultInstance()
                 .where(Offer.class)
                 .equalTo("categoryId", cat)
                 .findAll();
     }
+
     public RealmResults<Category> getCategories() {
         return Realm.getDefaultInstance().where(Category.class).findAll();
     }
 
     private void initDb(Response<Catalog> catalogResponse, Realm realm) {
         try {
-
             realm.beginTransaction();
             realm.deleteAll();
             realm.insert(catalogResponse.body().getShop());

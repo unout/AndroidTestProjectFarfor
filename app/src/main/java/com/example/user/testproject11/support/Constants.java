@@ -30,6 +30,7 @@ public class Constants {
     private static final String snacks = "snacks";
     private static final String pizza = "pizza";
     private static final String salad = "salad";
+    private static final String map =  "map";
 
     private static final String additivesRU = "добавки";
     private static final String dessertsRU = "десерты";
@@ -44,6 +45,8 @@ public class Constants {
     private static final String snacksRU = "закуски";
     private static final String pizzaRU = "пицца";
     private static final String saladRU = "салаты";
+    private static final String mapRU =  "карта";
+
 
     public static String translateTitle (String titleRU){
         switch (titleRU) {
@@ -60,6 +63,7 @@ public class Constants {
             case snacksRU:     return snacks;
             case pizzaRU:      return pizza;
             case saladRU:      return salad;
+            case mapRU:        return map;
             default:
                 return "";
         }
