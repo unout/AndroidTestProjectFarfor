@@ -68,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 getFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, new CategoryListFragment())
                         .commit();
-
                 break;
             case 2:
                 String network_error = getString(R.string.conn_err);
@@ -78,6 +77,5 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             default:
                 break;
         }
-
     }
 }

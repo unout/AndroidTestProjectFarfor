@@ -12,26 +12,23 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.user.testproject11.Manager;
 import com.example.user.testproject11.R;
 import com.example.user.testproject11.adapters.CatAdapter;
-
+import com.google.android.gms.maps.MapFragment;
 
 public class CategoryListFragment extends Fragment implements Manager.OnUpdateListener {
 
     private Context mContext;
     private RecyclerView mRecyclerView;
     private TextView mEmptyView;
-    private ProgressBar progressBar;
 
     private final CatAdapter.OnItemClickListener mOnItemClickListener = new CatAdapter.OnItemClickListener() {
         @Override
         public void onItemClick(View view, int position) {
-            OffersListFragment offersListFragment = OffersListFragment.newInstance(position); //(mOfferNumber - 1 - position);
+            OffersListFragment offersListFragment = OffersListFragment.newInstance(position);
 
             getFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, offersListFragment)
@@ -82,7 +79,6 @@ public class CategoryListFragment extends Fragment implements Manager.OnUpdateLi
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-
         mEmptyView = (TextView) v.findViewById(R.id.mEmptyView);
 
         if (Manager.getInstance().getCategories().size() > 0) {
@@ -92,9 +88,19 @@ public class CategoryListFragment extends Fragment implements Manager.OnUpdateLi
                     mOnItemClickListener);
             mRecyclerView.setAdapter(catAdapter);
         }
-        progressBar = (ProgressBar) v.findViewById(R.id.progressBar);
+        TextView map = (TextView) v.findViewById(R.id.mMap);
+        map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new MapFragment())
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
         return v;
     }
+
 
     @Override
     public void onResume() {
@@ -105,21 +111,19 @@ public class CategoryListFragment extends Fragment implements Manager.OnUpdateLi
     public void onUpdateFinished(int resultCode) {
         switch (resultCode) {
             case 1:
+                mEmptyView.setVisibility(View.GONE);
                 CatAdapter mCatAdapter = new CatAdapter(mContext,
                         Manager.getInstance().getCategories(),
                         mOnItemClickListener);
                 mRecyclerView.setAdapter(mCatAdapter);
                 break;
             case 2:
-                String network_error = getString(R.string.conn_err);
                 mEmptyView.setText(R.string.conn_err);
                 mEmptyView.setVisibility(View.VISIBLE);
-                Toast.makeText(mContext, network_error, Toast.LENGTH_LONG).show();
                 break;
             case 3:
             default:
                 break;
         }
-        progressBar.setVisibility(View.GONE);
     }
 }
