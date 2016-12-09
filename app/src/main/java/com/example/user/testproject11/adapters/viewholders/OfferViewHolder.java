@@ -32,7 +32,7 @@ public class OfferViewHolder extends com.thoughtbot.expandablerecyclerview.viewh
             PicassoBigCache.INSTANCE.getPicassoBigCache(context)
                     .load(o.getPicture())
                     .error(R.drawable.no_image)
-                    .resize(320, 240)
+                    .resize(240, 160)
                     .centerCrop()
                     .into(mOfferIcon);
 

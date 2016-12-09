@@ -19,5 +19,11 @@ public class Category extends RealmObject {
     public String getContent() {
         return category;
     }
+    public void setCategory(String category) {
+        this.category = category;
+    }
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
 }

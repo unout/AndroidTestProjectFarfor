@@ -12,19 +12,19 @@ import com.example.user.testproject11.R;
 import com.example.user.testproject11.model.Category;
 import com.example.user.testproject11.support.Constants;
 
-import io.realm.RealmResults;
+import java.util.ArrayList;
 
 public class CatAdapter extends RecyclerView.Adapter<CatAdapter.ViewHolder> {
     private Context mContext;
     private LayoutInflater lInflater;
-    private RealmResults<Category> mCats;
+    private ArrayList<Category> mCats;
     private OnItemClickListener mOnItemClickListener;
 
     public interface OnItemClickListener {
         void onItemClick(View view, int position);
     }
 
-    public CatAdapter(Context context, RealmResults<Category> cats, OnItemClickListener onItemClickListener) {
+    public CatAdapter(Context context, ArrayList<Category> cats, OnItemClickListener onItemClickListener) {
         mContext = context;
         mCats = cats;
         lInflater = (LayoutInflater) mContext

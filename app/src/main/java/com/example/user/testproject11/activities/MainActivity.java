@@ -8,10 +8,11 @@ import android.widget.Toast;
 import com.example.user.testproject11.Manager;
 import com.example.user.testproject11.R;
 import com.example.user.testproject11.fragments.CategoryListFragment;
+import com.example.user.testproject11.support.OverviewSwipeRefreshLayout;
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, Manager.OnUpdateListener {
 
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private OverviewSwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     .commit();
         }
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.mSwipeRefreshLayout);
+        mSwipeRefreshLayout = (OverviewSwipeRefreshLayout) findViewById(R.id.mSwipeRefreshLayout);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setRefreshing(true);
     }
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     public void onBackPressed() {
         if (getFragmentManager().getBackStackEntryCount() >= 0) {
             getFragmentManager().popBackStack();
+            mSwipeRefreshLayout.setOnRefreshListener(this);
         } else {
             super.onBackPressed();
         }

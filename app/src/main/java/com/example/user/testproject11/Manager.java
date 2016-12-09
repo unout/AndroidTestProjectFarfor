@@ -10,6 +10,9 @@ import com.example.user.testproject11.model.Offer;
 import com.example.user.testproject11.support.Constants;
 import com.example.user.testproject11.support.NetworkUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.realm.Realm;
 import io.realm.RealmResults;
 import retrofit2.Call;
@@ -21,7 +24,7 @@ import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 public class Manager {
 
     private static volatile Manager instance;
-    private OnUpdateListener mListener = null;
+    private List<OnUpdateListener> mListeners = new ArrayList<>();
     private RealmResults<Offer> mOffers;
 
     private Manager() {
@@ -45,7 +48,7 @@ public class Manager {
     }
 
     public void setListener(OnUpdateListener mListener) {
-        this.mListener = mListener;
+        this.mListeners.add(mListener);
     }
 
     public void calling(final Context context) {
@@ -89,8 +92,14 @@ public class Manager {
                 .findAll();
     }
 
-    public RealmResults<Category> getCategories() {
-        return Realm.getDefaultInstance().where(Category.class).findAll();
+    public ArrayList<Category> getCategories() {
+        ArrayList<Category> arCat = new ArrayList<>();
+        arCat.addAll(Realm.getDefaultInstance().where(Category.class).findAll());
+        Category mapCat = new Category();
+        mapCat.setCategory("Map");
+        mapCat.setId(9726);
+        arCat.add(mapCat);
+        return arCat;
     }
 
     private void initDb(Response<Catalog> catalogResponse, Realm realm) {
@@ -110,8 +119,10 @@ public class Manager {
 
             @Override
             public void run() {
-                if (mListener != null) {
-                    mListener.onUpdateFinished(resultCode);
+                for (int i = 0; i < mListeners.size(); i++) {
+                    if (mListeners.get(i) != null) {
+                        mListeners.get(i).onUpdateFinished(resultCode);
+                    }
                 }
             }
         });

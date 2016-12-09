@@ -6,7 +6,7 @@
     <dimen name="activity_horizontal_margin">12sp</dimen>
     <dimen name="activity_vertical_margin">6sp</dimen>
     <dimen name="appbar_padding_top">6sp</dimen>
-    <dimen name="article_icon_width">90dp</dimen>
-    <dimen name="article_icon_height">80dp</dimen>
+    <dimen name="offer_icon_width">90dp</dimen>
+    <dimen name="offer_icon_height">80dp</dimen>
     <dimen name="text_margin">16dp</dimen>
 </resources>

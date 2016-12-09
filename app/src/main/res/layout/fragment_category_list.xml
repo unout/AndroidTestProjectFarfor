@@ -24,10 +24,4 @@
         android:textSize="20sp"
         android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/mMap"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="bottom|left"
-        android:text="@string/map" />
 </RelativeLayout>
