@@ -32,7 +32,6 @@ public class OverviewSwipeRefreshLayout extends SwipeRefreshLayout {
             default:
                 break;
         }
-
         return false;
     }
 

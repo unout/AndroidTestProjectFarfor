@@ -17,28 +17,25 @@ import android.widget.Toast;
 import com.example.user.testproject11.Manager;
 import com.example.user.testproject11.R;
 import com.example.user.testproject11.adapters.CatAdapter;
+import com.example.user.testproject11.model.Category;
+
+import io.realm.RealmResults;
 
 public class CategoryListFragment extends Fragment implements Manager.OnUpdateListener {
 
     private Context mContext;
     private RecyclerView mRecyclerView;
     private TextView mEmptyView;
+    private RealmResults<Category> mCats = Manager.getInstance().getCategories();
 
     private final CatAdapter.OnItemClickListener mOnItemClickListener = new CatAdapter.OnItemClickListener() {
         @Override
         public void onItemClick(View view, int position) {
-            if (position != Manager.getInstance().getCategories().size() - 1) {
 
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, OffersListFragment.newInstance(position))
-                        .addToBackStack(null)
-                        .commit();
-            } else {
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, MyMapFragment.newInstance())
-                        .addToBackStack(null)
-                        .commit();
-            }
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, OffersListFragment.newInstance(position))
+                    .addToBackStack(null)
+                    .commit();
         }
     };
 
@@ -81,10 +78,10 @@ public class CategoryListFragment extends Fragment implements Manager.OnUpdateLi
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mEmptyView = (TextView) v.findViewById(R.id.mEmptyView);
 
-        if (Manager.getInstance().getCategories().size() > 1) {
+        if (mCats.size() > 0) {
 
             CatAdapter catAdapter = new CatAdapter(mContext,
-                    Manager.getInstance().getCategories(),
+                    mCats,
                     mOnItemClickListener);
             mRecyclerView.setAdapter(catAdapter);
         }
@@ -102,12 +99,12 @@ public class CategoryListFragment extends Fragment implements Manager.OnUpdateLi
             case 1:
                 mEmptyView.setVisibility(View.GONE);
                 CatAdapter mCatAdapter = new CatAdapter(mContext,
-                        Manager.getInstance().getCategories(),
+                        mCats,
                         mOnItemClickListener);
                 mRecyclerView.setAdapter(mCatAdapter);
                 break;
             case 2:
-                if (Manager.getInstance().getCategories().size() > 1) {
+                if (mCats.size() > 0) {
                     Toast.makeText(mContext, R.string.conn_err, Toast.LENGTH_LONG).show();
                 } else {
                     mEmptyView.setText(R.string.conn_err);

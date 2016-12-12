@@ -92,14 +92,8 @@ public class Manager {
                 .findAll();
     }
 
-    public ArrayList<Category> getCategories() {
-        ArrayList<Category> arCat = new ArrayList<>();
-        arCat.addAll(Realm.getDefaultInstance().where(Category.class).findAll());
-        Category mapCat = new Category();
-        mapCat.setCategory("Map");
-        mapCat.setId(9726);
-        arCat.add(mapCat);
-        return arCat;
+    public RealmResults<Category> getCategories() {
+        return Realm.getDefaultInstance().where(Category.class).findAll();
     }
 
     private void initDb(Response<Catalog> catalogResponse, Realm realm) {
